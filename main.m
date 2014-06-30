@@ -1,0 +1,45 @@
+[data,wordList]=xlsread('word.xls','Sheet1','A1:B5969');
+    load star.mat
+    load date.mat
+    load round.mat
+    count=0;
+for i=1:length(wordList)
+    clc
+    if date(i,1) > floor(now)
+        continue;
+    end
+    count=count+1;
+    if count>100
+        count=0;
+        i=1;
+        continue;
+    end
+    fprintf('第%d个单词：', i);
+    disp(wordList{i,1});
+    disp('                                                  倒计时3秒...');
+    pause(1)
+    disp('                                                  倒计时2秒...');
+    pause(1)
+    disp('                                                  倒计时1秒...');
+    pause(1)
+    disp(wordList{i,2});
+    disp(' ');
+    fprintf('                                               你的记忆星级为：%d', star(i,1));
+    disp(' ');
+    disp('相关单词：');
+    findSimilarWords(wordList{i,1});
+    disp(' ');
+    R = input('                                             输入你对单词的记忆星级     ');
+    if R<5
+        date(i,1)=floor(now);
+    end
+    
+    if R==5
+        date(i,1)=floor(now)+round(i,1)*round(i,1);
+        round(i,1)=round(i,1)+1;
+    end
+    star(i,1)=R;
+    save star.mat star;
+    save round.mat round;
+    save date.mat date;
+end

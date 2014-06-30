@@ -1,0 +1,4 @@
+aaab : def1
+aabb : def2
+abbb : def3
+bbbb : def4
